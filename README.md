@@ -47,7 +47,7 @@ Output
 The script adds a section to the top-level `REPORTING` object, 
 creating it if needed
 
-```json
+```javascript
 "REPORTING": {
   "oncokb": { ... }
 }
@@ -55,7 +55,7 @@ creating it if needed
 
 There are two sections under `oncokb`
 
-```json
+```javascript
 "oncokb": {
   "PASS": [ ... ],
   "Filtered": [ ... ]
@@ -64,7 +64,7 @@ There are two sections under `oncokb`
 
 corresponding to the top-level `VARIANTS` section in the input JSON file
 
-```json
+```javascript
 "VARIANTS": {
   "PASS": [ ... ],
   "Filtered": [ ... ]
@@ -75,7 +75,7 @@ Elements in the `oncokb` section arrays correspond to elements in the
 `VARIANTS` arrays, with one object per `VARIANTS` element as follows
 
 
-```json
+```javascript
 {
   // The first API call made is a preflight check with no tumor type 
   // specified to see if OncoKB has any data for the variant
@@ -86,14 +86,14 @@ Elements in the `oncokb` section arrays correspond to elements in the
   "apiStatus": "low_vaf|api_failed|not_found|ok"
 ```
 
-```json
+```javascript
   "apiStatus": "low_vaf"
   // The variant is from the Filtered section
   // with VAF below specified minimum (default 1.0%) and is not queried
   // further
 ```
 
-```json
+```javascript
   "apiStatus": "api_failed"
   // Additional debugging data will
   // be stored  under "apiRequests", which can be either an exception
@@ -113,14 +113,14 @@ Elements in the `oncokb` section arrays correspond to elements in the
   }
 ```
 
-```json
+```javascript
   "apiStatus": "not_found"
   // The API call succeeded but OncoKB has
   // no data for the variant, and no further queries for the variant 
   // are made
 ```
 
-```json
+```javascript
   "apiStatus": "ok"
   // The variant has data in OncoKB, and a new API
   // call is made for each tumor type, with data stored under a key
