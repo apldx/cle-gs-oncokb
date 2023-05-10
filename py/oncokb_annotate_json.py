@@ -3,6 +3,7 @@
 import os,sys
 import argparse
 import logging
+import collections
 import json
 import requests
 
@@ -155,7 +156,7 @@ def check_gs_config(config, config_p):
   gs_config_constraints = {
     'oncokb_api_key': str,
     'oncokb_api_timeout': int,
-    'oncokb_tumor_types': list
+    'gs_oncokb_tumor_type_map': dict
   }
   errors = []
 
@@ -177,7 +178,18 @@ with open(args.config) as fh:
   gs_config = json.loads(fh.read())
 check_gs_config(gs_config, args.config)
 
-tumor_types = gs_config['oncokb_tumor_types']
+tumor_types = []
+for gs_tumor_type_values in gs_config['gs_oncokb_tumor_type_map'].values():
+  tumor_types += gs_tumor_type_values
+info(f"GS tumor types n: {len(gs_config['gs_oncokb_tumor_type_map'].keys())}")
+info(f"OncoKB tumor types n: {len(tumor_types)}")
+info('Duplicates are:')
+info([i for i, count in collections.Counter(tumor_types).items() if count > 1])
+info(f"Unique OncoKB tumor types n: {len(set(tumor_types))}")
+
+tumor_types = list(set(tumor_types))
+info(f"Final tumor types n: {len(tumor_types)}")
+
 api_key = gs_config['oncokb_api_key']
 headers = {
   'accept': 'application/json',
